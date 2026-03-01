@@ -1,5 +1,11 @@
 # Sandbox-MoGe
 
+This repository is a sandbox implementation of the MoGe depth estimation application with an inference module and web UI.
+
+- The setup and test steps were carried out following the guidelines on the [MoGe-2 project page](https://github.com/microsoft/MoGe).
+- MoGe code is released under the MIT license, except for DINOv2 code in `moge/model/dinov2` which is released by Meta AI under the Apache 2.0 license. See [LICENSE](https://github.com/microsoft/MoGe/blob/main/LICENSE) for more details.
+
+
 ## Prerequisites
 
 - Python 3.12 or newer (a virtual environment is recommended).
@@ -29,6 +35,3 @@
 
 ## Notes
 
-- The setup and test steps were carried out following the guidelines on the [MoGe-2 project page](https://github.com/microsoft/MoGe).
-  - MoGe code is released under the MIT license, except for DINOv2 code in `moge/model/dinov2` which is released by Meta AI under the Apache 2.0 license. See [LICENSE](https://github.com/microsoft/MoGe/blob/main/LICENSE) for more details.
-- The repository is a sandbox implementation of the MoGe depth estimation application with an inference module and web UI.
