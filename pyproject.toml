@@ -1,0 +1,15 @@
+[project]
+name = "sandbox-moge"
+version = "0.1.0"
+description = "Sample Project for our own MoGe-2 app"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "moge",
+    "opencv-python",
+    "torch<2.10.0",
+    "torchvision"
+]
+
+[tool.uv.sources]
+moge = { git = "https://github.com/microsoft/MoGe.git" }
