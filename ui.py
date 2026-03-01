@@ -84,7 +84,8 @@ f'''
         with gr.Row():
             # Left side: Input and settings
             with gr.Column():
-                input_image = gr.Image(type="numpy", image_mode="RGB", label="Input Image")
+                input_image = gr.Image(type="numpy", image_mode="RGB", label="Input Image", width=800, height=600)
+                submit_btn = gr.Button("Submit", variant='primary')
                 with gr.Accordion(label="Settings", open=False):
                     max_size_input = gr.Number(value=800, label="Maximum Image Size", precision=0, minimum=256, maximum=2048)
                     resolution_level = gr.Dropdown(['Low', 'Medium', 'High', 'Ultra'], label="Inference Resolution Level", value='High')
@@ -94,7 +95,6 @@ f'''
                     produce_normal = gr.Checkbox(value=capabilities['has_normal'], label="Produce Normal (slower)")
                     enable_measure = gr.Checkbox(value=capabilities['has_scale'], label="Enable Measure")
                     enable_download = gr.Checkbox(value=True, label="Enable Download (save output files)")
-                submit_btn = gr.Button("Submit", variant='primary')
 
             # Right side: Output
             with gr.Column():
