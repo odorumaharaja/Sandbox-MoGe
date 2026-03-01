@@ -75,7 +75,7 @@ def create_demo(inference: MoGeInference, share: bool) -> gr.Blocks:
         gr.Markdown(
 f'''
 <div align="center">
-<h1>Estimate Object Estimator</h1>
+<h1>Monocular Object Volume Estimator</h1>
 </div>
 ''')
         results = gr.State(value=None)
