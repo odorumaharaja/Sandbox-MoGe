@@ -104,7 +104,6 @@ f'''
                         viewer_message = gr.Markdown("")
                         model_3d = gr.Model3D(display_mode="solid", label="3D Point Map", clear_color=[1.0, 1.0, 1.0, 1.0], height="60vh")
                         fov = gr.Markdown()
-                        timings = gr.Markdown("", label="Timings")
                     
                     # Depth tab
                     with gr.Tab("Depth"):
@@ -137,14 +136,14 @@ f'''
 
         # Inference execution flow
         submit_btn.click(
-            fn=lambda: [None, None, None, None, None, "", "", "", ""],
-            outputs=[results, depth_map, normal_map, model_3d, files, fov, viewer_message, depth_message, timings]
+            fn=lambda: [None, None, None, None, None, "", "", ""],
+            outputs=[results, depth_map, normal_map, model_3d, files, fov, viewer_message, depth_message]
         ).then(
             fn=lambda img, max_sz, res_lvl, apply_m, rm_edge, prod_depth, prod_norm, en_dl: _run_inference(
                 inference, img, max_sz, res_lvl, apply_m, rm_edge, prod_depth, prod_norm, en_dl
             ),
             inputs=[input_image, max_size_input, resolution_level, apply_mask, remove_edges, produce_depth, produce_normal, enable_download],
-            outputs=[results, depth_map, normal_map, model_3d, files, fov, viewer_message, depth_message, timings]
+            outputs=[results, depth_map, normal_map, model_3d, files, fov, viewer_message, depth_message]
         ).then(
             fn=reset_measure,
             inputs=[results],
@@ -193,19 +192,9 @@ def _run_inference(inference: MoGeInference, image: np.ndarray, max_size: int,
     else:
         depth_message = ""
 
-    # Format timing information
-    timings = result['timings']
-    timings_text = (
-        f"- Preprocess: {timings['preprocess_s']:.3f}s\n"
-        f"- Inference: {timings['inference_s']:.3f}s\n"
-        f"- Visualization: {timings['visualization_s']:.3f}s\n"
-        f"- Export: {timings['export_s']:.3f}s\n"
-        f"- Total: {timings['total_s']:.3f}s"
-    )
-
     # Display FOV
     fov_x, fov_y = result['fov']
-    fov_text = f'- **Horizontal FOV: {fov_x:.1f}°**. \n - **Vertical FOV: {fov_y:.1f}°'
+    fov_text = f'- **Horizontal FOV: {fov_x:.1f}°**. \n - **Vertical FOV: {fov_y:.1f}°**'
 
     return (
         result,
@@ -215,6 +204,5 @@ def _run_inference(inference: MoGeInference, image: np.ndarray, max_size: int,
         result['output_files'],
         fov_text,
         viewer_message,
-        depth_message,
-        timings_text
+        depth_message
     )

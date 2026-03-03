@@ -111,6 +111,17 @@ class MoGeInference:
         output = self.run_with_gpu(image, resolution_level_int, apply_mask)
         t_after_infer = time.time()
 
+        """
+        `output` has keys "points", "depth", "mask", "normal" (optional) and "intrinsics",
+        The maps are in the same size as the input image. 
+        {
+            "points": (H, W, 3),    # point map in OpenCV camera coordinate system (x right, y down, z forward). For MoGe-2, the point map is in metric scale.
+            "depth": (H, W),        # depth map
+            "normal": (H, W, 3)     # normal map in OpenCV camera coordinate system. (available for MoGe-2-normal)
+            "mask": (H, W),         # a binary mask for valid pixels. 
+            "intrinsics": (3, 3),   # normalized camera intrinsics
+        }
+        """
         points, depth, mask, normal = output['points'], output.get('depth', None), output['mask'], output.get('normal', None)
 
         # Respect produce depth/normal options
