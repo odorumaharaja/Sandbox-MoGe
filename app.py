@@ -9,7 +9,7 @@ from ui import create_demo
 
 
 @click.command(help='Web demo')
-@click.option('--host', 'host', default='localhost', help='The IP address of the server to bind to.')
+@click.option('--host', 'host', default='0.0.0.0', help='The IP address of the server to bind to.')
 @click.option('--share', is_flag=True, help='Whether to run the app in shared mode.')
 @click.option('--pretrained', 'pretrained_model_name_or_path', default=None, help='The name or path of the pre-trained model.')
 @click.option('--version', 'model_version', default='v2', help='The version of the model.')

@@ -1,0 +1,28 @@
+services:
+  app:
+    # Build from the current directory
+    build: .
+    image: moge-app
+    container_name: moge-container
+    ports:
+      # Map port 7860 for Gradio
+      - "7860:7860"
+    # Load environment variables from .env file
+    env_file:
+      - .env
+    environment:
+      # Set Hugging Face cache directory within the container
+      - HF_HOME=/app/hf_cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            # Enable NVIDIA GPU support
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      # Mount current directory for development
+      # - .:/app
+      # Persist Hugging Face model cache
+      - ./hf_cache:/app/hf_cache
