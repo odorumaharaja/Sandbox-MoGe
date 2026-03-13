@@ -1,0 +1,24 @@
+# syntax=docker/dockerfile:1
+
+FROM python:3.12-slim
+
+# Get uv for faster installation
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Install minimal dependencies for frontend
+RUN uv pip install --system \
+    gradio \
+    httpx \
+    numpy \
+    pillow
+
+# Copy frontend code
+COPY frontend /app/frontend/
+
+EXPOSE 7860
+
+CMD ["python", "frontend/app.py"]

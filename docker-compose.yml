@@ -2,7 +2,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: backend/Dockerfile.backend
     container_name: moge-backend
     ports:
       - "8000:8000"
@@ -11,7 +11,6 @@ services:
     volumes:
       - ./hf_cache:/app/hf_cache
       - ./backend:/app/backend
-      - ./assets:/app/assets
     deploy:
       resources:
         reservations:
@@ -19,12 +18,11 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
-    command: ["uv", "run", "python", "-m", "backend.main"]
 
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: frontend/Dockerfile.frontend
     container_name: moge-frontend
     ports:
       - "7860:7860"
@@ -34,4 +32,3 @@ services:
       - backend
     volumes:
       - ./frontend:/app/frontend
-    command: ["uv", "run", "python", "frontend/app.py"]

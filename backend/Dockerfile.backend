@@ -1,0 +1,38 @@
+# syntax=docker/dockerfile:1
+
+ARG CUDA_VERSION=12.9.1
+ARG OS_VERSION=ubuntu22.04
+ARG TAG_VERSION=${CUDA_VERSION}-cudnn-runtime-${OS_VERSION}
+
+FROM nvidia/cuda:${TAG_VERSION}
+
+# Get uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
+
+# Install system packages
+RUN apt-get update && apt-get install -y \
+    git \
+    libgl1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy necessary files
+COPY .python-version pyproject.toml /app/
+COPY backend /app/backend/
+
+# Sync project (only backend dependencies needed really, but we'll use the root pyproject)
+RUN uv sync --no-dev && uv cache clean
+
+ENV PATH="/app/.venv/bin:$PATH"
+ENV HF_HOME=/app/hf_cache
+
+EXPOSE 8000
+
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
