@@ -1,6 +1,16 @@
-# CUDA 12.9 & CuDNN environment on Ubuntu 24.04
-# Use runtime image to reduce size (devel is only needed for compilation)
-FROM nvidia/cuda:12.9.1-cudnn-runtime-ubuntu24.04
+# syntax=docker/dockerfile:1
+
+# ==========================================
+# Build Arguments
+# ==========================================
+ARG CUDA_VERSION=12.9.1
+ARG OS_VERSION=ubuntu22.04
+ARG TAG_VERSION=${CUDA_VERSION}-cudnn-runtime-${OS_VERSION}
+
+# ==========================================
+# Base Environment Setup Stage
+# ==========================================
+FROM nvidia/cuda:${TAG_VERSION}
 
 # Get uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
