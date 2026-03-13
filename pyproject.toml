@@ -3,12 +3,25 @@ name = "sandbox-moge"
 version = "0.1.0"
 description = "Sample Project for our own MoGe-2 app"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.13"
 dependencies = [
+    "opencv-python-headless",
+    "torch",
+    "torchvision",
+    "numpy",
+    "pillow",
+    "trimesh",
     "moge",
-    "opencv-python",
-    "torch<2.10.0",
-    "torchvision"
+    "utils3d @ git+https://github.com/EasternJournalist/utils3d.git@3fab839f0be9931dac7c8488eb0e1600c236e183",
+    "tqdm",
+    "huggingface-hub",
+    "scipy",
+    "gradio",
+    "python-dotenv",
+    "fastapi",
+    "uvicorn",
+    "python-multipart",
+    "httpx",
 ]
 
 [tool.uv.sources]

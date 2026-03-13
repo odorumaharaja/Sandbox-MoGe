@@ -1,28 +1,37 @@
 services:
-  app:
-    # Build from the current directory
-    build: .
-    image: moge-app
-    container_name: moge-container
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moge-backend
     ports:
-      # Map port 7860 for Gradio
-      - "7860:7860"
-    # Load environment variables from .env file
+      - "8000:8000"
     env_file:
       - .env
-    environment:
-      # Set Hugging Face cache directory within the container
-      - HF_HOME=/app/hf_cache
+    volumes:
+      - ./hf_cache:/app/hf_cache
+      - ./backend:/app/backend
+      - ./assets:/app/assets
     deploy:
       resources:
         reservations:
           devices:
-            # Enable NVIDIA GPU support
             - driver: nvidia
-              count: all
+              count: 1
               capabilities: [gpu]
+    command: ["uv", "run", "python", "-m", "backend.main"]
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moge-frontend
+    ports:
+      - "7860:7860"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
     volumes:
-      # Mount current directory for development
-      # - .:/app
-      # Persist Hugging Face model cache
-      - ./hf_cache:/app/hf_cache
+      - ./frontend:/app/frontend
+    command: ["uv", "run", "python", "frontend/app.py"]

@@ -1,57 +1,52 @@
 # Sandbox-MoGe
 
-This repository is a sandbox implementation of the MoGe depth estimation application with an inference module and web UI. It's my sandbox using AI agent (GitHub Copilot and Gemmini Code Assist).
+This repository is a sandbox implementation of the MoGe 3D reconstruction application, refactored into a modular FastAPI backend and a Gradio frontend.
 
-- The setup and test steps were carried out following the guidelines on the [MoGe-2 project page](https://github.com/microsoft/MoGe).
-- MoGe code is released under the MIT license, except for DINOv2 code in `moge/model/dinov2` which is released by Meta AI under the Apache 2.0 license. See [LICENSE](https://github.com/microsoft/MoGe/blob/main/LICENSE) for more details.
+## Architecture
 
-
+- **Backend (FastAPI)**: Handles 3D reconstruction inference using MoGe models.
+- **Frontend (Gradio)**: Provides a web interface that communicates with the API.
+- **Organization**: Refactored into `backend/` and `frontend/` directories for better maintainability.
 
 ## Prerequisites (Local Machine)
 
-- Python 3.12 or newer (a virtual environment is recommended).
-- Git to clone this repository.
-- [uv](https://github.com/astral-sh/uv) (a Python package/dependency manager used in this project).
-- A CUDA-capable GPU and the corresponding CUDA runtime (for GPU acceleration).  See the [CUDA installation guide for Linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/) for instructions.
+- Python 3.12 or newer.
+- [uv](https://github.com/astral-sh/uv) (Python package/dependency manager).
+- CUDA-capable GPU and corresponding runtime.
 
-## Setup Instructions (Local Machine)
+## Setup & Execution (Local Machine)
 
-1. Clone the repository:
+1. Clone and navigate:
    ```bash
    git clone https://github.com/odorumaharaja/Sandbox-MoGe.git
    cd Sandbox-MoGe
    ```
-2. Use `uv` to sync the project and its dependencies:
+2. Sync dependencies:
    ```bash
    uv sync
    ```
-3. Run the application to verify startup (using uv to invoke the script):
+3. Run both Backend and Frontend:
    ```bash
-   uv run python app.py [--share] [--pretrained MODEL] [--version v2] [--fp16]
+   ./run_all.sh
    ```
+   - API: `http://localhost:8000`
+   - UI: `http://localhost:7860`
 
-## Prerequisites (Docker)
+## Docker Setup
 
-- Docker Engine or Docker Desktop.
-- [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) (required for GPU acceleration).
-
-## Setup Instructions (Docker)
-
-1. Clone the repository:
+1. Create `.env` and set your Hugging Face token:
    ```bash
-   git clone https://github.com/odorumaharaja/Sandbox-MoGe.git
-   cd Sandbox-MoGe
+   echo "HF_TOKEN=your_token_here" > .env
    ```
-
-2. Create a `.env` file and set your Hugging Face token:
-   ```bash
-   echo "HF_TOKEN=your_hugging_face_token" > .env
-   ```
-
-3. Build and run the container:
+2. Build and run with Docker Compose:
    ```bash
    docker compose up --build
    ```
-   The application will be accessible at `http://localhost:7860`.
+   - Access the UI at `http://localhost:7860`.
 
-## Notes
+## Documentation
+- [API Specification](doc/api_spec.md)
+- [Inference Details](doc/inference.md)
+
+## License
+MoGe code is released under the MIT license, except for DINOv2 code (`moge/model/dinov2`) which is under Apache 2.0.

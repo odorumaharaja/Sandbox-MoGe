@@ -21,8 +21,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
 
 # Install system packages
-# git and image processing libraries (libgl1, libglib2.0-0)
-# python3 and pip are managed by uv, so they are excluded from system packages
 RUN apt-get update && apt-get install -y \
     git \
     libgl1 \
@@ -40,18 +38,19 @@ ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
 
 # Copy application code
-COPY *.py /app
+COPY backend /app/backend
+COPY frontend /app/frontend
 COPY .python-version /app
 COPY pyproject.toml /app
 
-# Sync project (install after copying code)
-RUN uv sync && uv cache clean
+# Sync project
+RUN uv sync --no-dev && uv cache clean
 
 # Add virtual environment to PATH
 ENV PATH="/app/.venv/bin:$PATH"
 
-# Expose Gradio port
-EXPOSE 7860
+# Expose ports
+EXPOSE 8000 7860
 
-# Run application
-CMD ["uv", "run", "app.py"]
+# Default command (can be overridden by docker-compose)
+CMD ["uv", "run", "python", "-m", "backend.main"]
