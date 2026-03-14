@@ -48,5 +48,22 @@ This repository is a sandbox implementation of the MoGe 3D reconstruction applic
 - [API Specification](doc/api_spec.md)
 - [Inference Details](doc/inference.md)
 
+## Features & UI Tools
+
+- **3D Reconstruction**: Upload an image to generate a mesh or point cloud.
+- **Measure Tool**: After inference, you can measure real-world distances between points directly on the processed image. This tool utilizes metric depth data from the MoGe models.
+
+## Testing
+
+This project uses `pytest` for automated testing.
+
+1. Ensure the backend is running.
+2. Run tests:
+   ```bash
+   uv run python3 -m pytest tests/
+   ```
+   - `tests/test_api.py`: General API flow and asset verification.
+   - `tests/test_measure.py`: Measurement logic and error cases.
+
 ## License
 MoGe code is released under the MIT license, except for DINOv2 code (`moge/model/dinov2`) which is under Apache 2.0.

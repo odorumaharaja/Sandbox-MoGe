@@ -16,6 +16,7 @@ class InferenceFiles(BaseModel):
     points_exr: str = Field(..., description="Path to the point map EXR file")
     mask_png: str = Field(..., description="Path to the mask PNG file")
     normal_exr: Optional[str] = Field(None, description="Path to the normal map EXR file")
+    image_png: str = Field(..., description="Path to the resized input image PNG file")
 
 class ImageSize(BaseModel):
     width: int
@@ -31,3 +32,16 @@ class InferenceResponse(BaseModel):
 class HealthCheckResponse(BaseModel):
     status: str
     model_loaded: bool
+
+class MeasurePoint(BaseModel):
+    x: int
+    y: int
+
+class MeasureRequest(BaseModel):
+    task_id: str
+    p1: MeasurePoint
+    p2: MeasurePoint
+
+class MeasureResponse(BaseModel):
+    distance: float
+    unit: str = "m"

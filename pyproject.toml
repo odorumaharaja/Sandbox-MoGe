@@ -26,3 +26,8 @@ dependencies = [
 
 [tool.uv.sources]
 moge = { git = "https://github.com/microsoft/MoGe.git" }
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]

@@ -62,6 +62,26 @@ The MoGe API is a FastAPI-based service for 3D reconstruction from single images
 `GET /v1/capabilities`
 - **Description**: Reports features supported by the currently loaded model (e.g., normal estimation).
 
+### 5. Measure Distance
+`POST /v1/measure`
+- **Description**: Calculates the Euclidean distance between two 3D points in an image.
+- **Note**: The coordinates `(x, y)` should correspond to the indices of the resized image returned in the inference response (`image_png`).
+- **Request (application/json)**:
+  ```json
+  {
+    "task_id": "uuid-string",
+    "p1": {"x": 100, "y": 150},
+    "p2": {"x": 200, "y": 250}
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "distance": 1.234,
+    "unit": "m"
+  }
+  ```
+
 ## Asset Serving
 `GET /assets/{task_id}/{filename}`
 - **Description**: Static files generated during inference are served from a temporary directory.

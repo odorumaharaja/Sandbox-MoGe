@@ -215,13 +215,14 @@ class MoGeInference:
             
             # Map export
             cv2.imwrite(str(output_path / 'mask.png'), mask.astype(np.uint8) * 255)
+            cv2.imwrite(str(output_path / 'image.png'), cv2.cvtColor(image, cv2.COLOR_RGB2BGR))
             if depth is not None:
                 cv2.imwrite(str(output_path / 'depth.exr'), depth.astype(np.float32), [cv2.IMWRITE_EXR_TYPE, cv2.IMWRITE_EXR_TYPE_FLOAT])
             cv2.imwrite(str(output_path / 'points.exr'), cv2.cvtColor(points.astype(np.float32), cv2.COLOR_RGB2BGR), [cv2.IMWRITE_EXR_TYPE, cv2.IMWRITE_EXR_TYPE_FLOAT])
             if normal is not None:
                 cv2.imwrite(str(output_path / 'normal.exr'), cv2.cvtColor(normal.astype(np.float32) * np.array([1, -1, -1], dtype=np.float32), cv2.COLOR_RGB2BGR), [cv2.IMWRITE_EXR_TYPE, cv2.IMWRITE_EXR_TYPE_HALF])
 
-            files = ['mesh.glb', 'pointcloud.ply', 'depth.exr', 'points.exr', 'mask.png']
+            files = ['mesh.glb', 'pointcloud.ply', 'depth.exr', 'points.exr', 'mask.png', 'image.png']
             if normal is not None:
                 files.append('normal.exr')
 
